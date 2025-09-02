@@ -14,6 +14,7 @@ def add_first(list, element):
     n = ns.new_single_node(element)
     if list["last"] == None:
         list["last"] = n
+    n["next"] = list["first"]
     list["first"] = n
     list["size"] += 1
     return list
@@ -23,8 +24,11 @@ def add_last(list, element):
     n = ns.new_single_node(element)
     if list["first"] == None:
         list["first"] = n
-    n["next"] = None
-    list["last"] = n
+    if list["last"] == None:
+        list["last"] = n
+    else:
+        list["last"]["next"] = n
+        list["last"] = n
     list["size"] += 1
     return list
 
@@ -32,22 +36,21 @@ def size(list):
     return list["size"]
 
 def first_element(list):
-    if not(list["first"] == None):
-        return list["first"]
+    if is_empty(list):
+        raise Exception("Error, indexacion fuera de rango: No hay elementos para leer")
     else:
-        return None
+        n = list["first"]
+        return n["info"]
     
 def last_element(list):
-    if not(list["first"] == None):
-        return list["first"]
+    if is_empty(list):
+        raise Exception("Error, indexacion fuera de rango: No hay elementos para leer")
     else:
-        return None
+        n = list["last"]
+        return n["info"]
 
 def is_empty(list):
-    if not list:
-        return True
-    else:
-        return False
+    return list["size"] == 0
     
 def get_element(list, pos):
     n = list["first"] # indexacion 0
@@ -56,7 +59,7 @@ def get_element(list, pos):
     return n
 
 def remove_first(list):
-    if list["first"] == None:
+    if is_empty(list):
         raise Exception("Error: Indexación fuera de rango -> list['first'] != NoneType")
     n = list["first"]
     list["first"] = n["next"]
@@ -64,7 +67,7 @@ def remove_first(list):
     return n["info"]
         
 def remove_last(list):
-   if list["first"] == None:
+   if is_empty(list):
        raise Exception("Error: Indexación fuera de rango -> list['last'] != NoneType")
    n = list["first"]
    last = list["last"]
@@ -86,7 +89,7 @@ def remove_last(list):
 def insert_element(list, element, pos):
     if 0 <= pos <= size(list):
        node = ns.new_single_node(element)
-       if list["first"] == None:
+       if is_empty(list):
          raise Exception("Error: Indexación fuera de rango -> Solo existe la posicion 0, pero el arreglo esta vacio.")
        node_anterior = list["first"]
        for i in range(pos-1):
@@ -100,7 +103,7 @@ def insert_element(list, element, pos):
         
 def is_present(list, element, cmp_function):
     node = ns.new_single_node(element)
-    if list["first"] == None:
+    if is_empty(list):
          raise Exception("Error: Indexación fuera de rango -> No existe ningun elemento, el arreglo esta vacio.")
     nodo_buscar = list["first"]
     existe = False
@@ -117,7 +120,7 @@ def is_present(list, element, cmp_function):
     
 def delete_element(list, pos):
     if 0 <= pos <= size(list):
-        if list["first"] == None:
+        if is_empty(list):
            raise Exception("Error: Indexación fuera de rango -> No se puede borrar elementos si no existe ninguno que borrar.")
         n_anterior = list["first"]
     
@@ -139,7 +142,7 @@ def delete_element(list, pos):
         
 def change_info(list, pos, new_info):
     if 0 <= pos <= size(list):
-        if list["first"] == None:
+        if is_empty(list):
             raise Exception("Error: Indexación fuera de rango -> No se puede borrar elementos si no existe ninguno que borrar.")
         n_cambio = list["first"]
         for i in range(pos):
@@ -152,7 +155,7 @@ def change_info(list, pos, new_info):
 def exchange(list, pos1, pos2):
         if not(0 <= pos1 <= size(list) and 0 <= pos2 <= size(list)):
             raise Exception('IndexError: list index out of range') # esto esta en la documentacion de DISC - Data Structures btw x3
-        if list["first"] == None:
+        if is_empty(list):
             raise Exception("Error: Indexación fuera de rango -> No se puede borrar elementos si no existe ninguno que borrar.")
         enc_p1_prev = list["first"]
         enc_p2_prev = list["first"]
@@ -178,7 +181,7 @@ def exchange(list, pos1, pos2):
 def sub_list(list, pos, num_elements):
     if not(0 <= pos <= size(list)):
             raise Exception('IndexError: list index out of range') # esto esta en la documentacion de DISC - Data Structures btw x3
-    if list["first"] == None:
+    if is_empty(list):
             raise Exception("Error: Indexación fuera de rango -> No se puede borrar elementos si no existe ninguno que borrar.")
     sub_list = new_list()
     ini_lista = list["first"]
@@ -189,8 +192,4 @@ def sub_list(list, pos, num_elements):
     sub_list["last"] = list["last"]
     sub_list["size"] = num_elements
     return sub_list
-    if not(list["first"] == None):
-        return list["first"]
-    else:
-        return None
     
