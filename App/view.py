@@ -65,6 +65,21 @@ def load_data(control):
 
 def print_books_to_read(results):
     # TODO Imprimir los libros por leer
+    if results is None or st.is_empty(results):
+        print("\nEl usuario no tiene libros por leer.")
+        
+    print("\nLibros por leer:")
+    indice = 1
+    # Imprimimos desapilando (comportamiento LIFO)
+    while not st.is_empty(results):
+        book = st.pop(results)
+        title = book.get('original_title')
+        gid = book.get('goodreads_book_id')
+        authors = book.get('authors')
+        print(f"{indice}. {title} | id: {gid} | autores: {authors}")
+        indice += 1
+    print("") 
+    
     pass
 
 
@@ -84,6 +99,12 @@ def print_tests_results(queue_results, stack_results):
     print("\nTiempos de ejecución para Pila: \n")
 
     # TODO Imprimir los resultados de las pruebas de rendimiento de la pila
+    print("Tiempo de ejecución para push:",
+          f"{stack_results['push_time']:.3f}", "[ms]")
+    print("Tiempo de ejecución para top:",
+          f"{stack_results['top_time']:.3f}", "[ms]")
+    print("Tiempo de ejecución para pop:",
+          f"{stack_results['pop_time']:.3f}", "[ms]")
 
 
 # Se crea el controlador asociado a la vista
@@ -122,6 +143,10 @@ def main():
             result = logic.get_user_position_on_queue(
                 control, int(user_id), int(book_id))
             # TODO Imprimir la posición del usuario en la cola
+            if result == -1:
+                print("\nEl usuario no está en la cola para leer ese libro.")
+            else:
+                print(f"\nEl usuario está en la posición {result} de la cola para ese libro.")
 
         elif int(inputs[0]) == 4:
             size = input("Indique tamaño de la muestra: ")
