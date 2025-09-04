@@ -26,6 +26,7 @@
 
 import sys
 import App.logic as logic
+import DataStructures.Stack as st
 
 """
 La vista se encarga de la interacción con el usuario
