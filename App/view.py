@@ -26,8 +26,8 @@
 
 import sys
 import App.logic as logic
-import DataStructures.Stack as st
 
+from DataStructures.Stack import stack as st
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menú de opciones y por cada selección
